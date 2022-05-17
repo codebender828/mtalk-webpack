@@ -1,0 +1,88 @@
+.el-overlay {
+  background-color: rgba(39,43,14,.90);
+}
+
+.el-dialog {
+  background-color: $--color-primary-gray;
+  border-radius: 8px;
+}
+
+.el-dialog__header {
+  padding: 0;
+  text-align: center;
+}
+
+.el-dialog__title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.el-drawer__close-btn,
+.el-dialog__headerbtn {
+  width: 46px;
+  height: 46px;
+  background-color: $--color-primary-blue;
+  box-shadow: inset 0px -6px 0px $--color-secondary-blue;
+  border-radius: 8px;
+  padding-bottom: 5px;
+
+  .el-dialog__close,
+  &:focus .el-dialog__close {
+    color: $--color-white;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &:hover,
+  &:active {
+    background-color: scale-color($--color-primary-blue, $lightness: +30%);
+
+    .el-dialog__close {
+      color: scale-color($--color-white, $lightness: +10%);
+    }
+  }
+  &:active {
+    box-shadow: none;
+    padding-bottom: 0;
+  }
+
+  // Mobile 下自动把按钮当作 Small Size 处理
+  // @TODO: 调整 Small Size 的尺寸和阴影
+  @media (max-width: 599px) {
+    width: 36px;
+    height: 36px;
+    padding-bottom: 6px;
+
+    .el-drawer__close,
+    .el-dialog__close {
+      color: white !important;
+      font-size: 16px;
+      width: 12px;
+      height: 11px;
+      background-image: url(~assets/icons/icon-close.svg);
+      display: block;
+      margin: 0 auto;
+
+      &:before {
+        display: none;
+      }
+    }
+
+    .el-dialog__close {
+      margin-top: 1px;
+    }
+
+  }
+}
+
+.el-dialog__body {
+  padding: 20px 96px 20px 20px;
+  min-height: 86px;
+  font-size: 12px;
+  line-height: 16px;
+  color: $--color-primary-blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

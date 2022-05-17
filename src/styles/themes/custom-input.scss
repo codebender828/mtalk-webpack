@@ -1,0 +1,47 @@
+.el-input,
+.el-textarea {
+  font-size: 18px;
+
+  &.is-disabled .el-input__inner {
+    background-color: $--color-secondary-gray;
+    border-color: #35466D;
+
+    &::placeholder {
+      color: scale-color($--color-black, $lightness: +60%);
+    }
+  }
+}
+
+.el-input__inner,
+.el-textarea__inner {
+  padding-left: 20px;
+  padding-right: 20px;
+  font-weight: 600;
+  min-height: 47px;
+  background: #DCFF1C;
+  border: 3px solid #35466D;
+  box-shadow: 3px 3px 0px #A6B256, inset 0px 1px 0px #E0F9FE;
+  border-radius: 15px;
+
+  &::placeholder {
+    color: $--color-disabled-shadow-blue;
+  }
+
+  &:hover,
+  &:focus {
+    color: $--color-black;
+    border-color: #35466D !important;
+  }
+}
+
+.el-input__inner {
+  height: 47px;
+}
+
+.el-input__count {
+  background: none !important;
+
+  &-inner {
+    background: none !important;
+  }
+}

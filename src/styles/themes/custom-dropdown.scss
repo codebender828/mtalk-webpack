@@ -1,0 +1,26 @@
+.el-dropdown__popper.el-popper[role=tooltip] {
+  border: none;
+  background: $--color-primary-blue;
+  box-shadow: inset 0px -6px 0px $--color-secondary-blue;
+
+  .el-popper__arrow {
+    display: none;
+  }
+
+  .el-dropdown-menu {
+    background: transparent;
+    border-radius: 8px;
+    padding-top: 0;
+    padding-bottom: 6px;
+  }
+
+  .el-dropdown-menu__item {
+    color: white;
+    font-weight: 500;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: scale-color($--color-primary-blue, $lightness: +30%)
+    }
+  }
+}

@@ -1,0 +1,33 @@
+.el-message {
+  max-width: 90vw;
+  min-width: 120px;
+  border: none;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background: #DCDFEE;
+  box-shadow: 3px 3px 0px #3546A1, inset 1px 2px 0px #E0F9FE;
+  border-radius: 10px;
+
+  .el-message__content {
+    line-height: 1.5 !important;
+    font-weight: 500;
+  }
+
+  &--info {
+    .el-message__content {
+      color: #35466D!important;
+    }
+  }
+
+  &--error {
+    .el-message__content {
+      color: #35466D!important;
+    }
+  }
+
+  &--success {
+    .el-message__content {
+      color: #35466D!important;
+    }
+  }
+}

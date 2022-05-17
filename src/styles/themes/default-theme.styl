@@ -1,0 +1,22 @@
+generate-default-theme-variables()
+  --primary-color: #35466D
+  --primary-color-rgb: 53, 70, 109
+  --secondary-color: #fff
+  --secondary-color-rgb: 255, 255, 255
+
+  --grid-baseline: 4px
+
+  --font-base: "Helvetica Neue", 'Pingfang SC', 'SF Pro Text', -apple-system, "Arial", sans-serif
+
+  // Element Plus 变量覆盖
+  // @FIXME: 这里只做临时覆盖，最终需要让 SCSS 的变量覆盖生效
+  --el-color-primary: $primary-green
+
+body,
+body.theme-default
+  generate-default-theme-variables()
+
+// 多语言主题覆盖默认主题
+body.lang-en
+  --font-base: Signika, "Helvetica Neue", 'Pingfang SC', 'SF Pro Text', -apple-system, "Arial", sans-serif
+  font-family: var(--font-base)

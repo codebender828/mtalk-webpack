@@ -1,0 +1,19 @@
+$base-grid-unit = 8px
+
+grid-unit()
+  $result = 0
+  for value in arguments
+    $result = $result + value
+  return unit($base-grid-unit * $result, 'px')
+
+gu()
+  return grid-unit(arguments)
+
+vgrid-unit()
+  $result = 0
+  for value in arguments
+    $result = $result + value
+  return "calc(var(--v-grid-baseline) * %s)" % $result
+
+vgu()
+  return vgrid-unit(arguments)

@@ -1,0 +1,48 @@
+.el-popper.is-light[role="tooltip"] {
+  color: #000
+}
+
+.el-popover.el-popper {
+  padding: 12px 15px;
+  background-color: #fff;
+  border: 0 none;
+  border-radius: 3px;
+  max-width: 220px;
+
+  .el-popconfirm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .el-popconfirm__main {
+    font-size: 12px;
+    line-height: 16px;
+    color: #000;
+  }
+
+  .el-popconfirm__action {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .el-button--mini {
+    min-width: 40px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 2px;
+
+    &, &:hover, &:active {
+      padding: 0 10px !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .el-button--text {
+    border: 1px solid #386eec;
+  }
+}

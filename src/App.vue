@@ -1,17 +1,24 @@
-<template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view />
+<script>
+import { useWallet } from "solana-wallets-vue";
+import { defineComponent, watchEffect } from "vue";
+
+export default defineComponent({
+  name: "App",
+  created() {
+    const className = `lang-${this.$i18n.locale}`;
+    document.body.classList.add(className);
+  },
+  setup() {
+    const wallet = useWallet();
+    watchEffect(() => {
+      console.log("wallet", wallet);
+    });
+  },
+});
+</script>
+
+<template lang="pug">
+router-view
 </template>
 
-<style lang="stylus">
-#app
-  font-family Avenir, Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
-</style>
+<style lang="stylus"></style>

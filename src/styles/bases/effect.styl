@@ -1,0 +1,99 @@
+// Transitions
+// [class*='-enter-active'],
+// [class*='-leave-active'],
+// [class*='-enter-to'],
+// [class*='-leave-to']
+  // transition: 218ms
+
+.fade-enter,
+.fade-leave-to
+  opacity: 0
+
+.zoom-enter,
+.zoom-leave-to
+  transform: scale(0.8, 0.8)
+  opacity: 0
+
+.void-enter-active,
+.void-leave-active
+  transition: all 0
+
+.scale-enter,
+.scale-leave-to
+  transform: scale(0, 0)
+
+.fade-slide-up-enter-active,
+.fade-slide-up-leave-active
+  transition: all 0.5s ease
+
+.fade-slide-up-enter,
+.fade-slide-up-leave-to
+  transform: translateY(40px)
+  opacity: 0
+
+// Page Transition
+.page-enter-to,
+.page-leave-to
+  transition: all 0s
+
+.page-enter,
+.page-leave-to
+  // opacity: 0
+
+.flip-x-enter-active,
+.flip-x-leave-active
+  transition-duration: 0.3s
+  transition-property: all
+  transition-timing-function: ease
+
+.flip-x-enter,
+.flip-x-leave-to
+  transform: rotateX(-180deg)
+  opacity: 0
+
+// 中划线命名会出问题。。。
+.slideVertical-enter,
+.slideVertical-leave-to
+  transform: translateY(10%) !important
+  opacity: 0
+  will-change: transform, opacity
+
+.slideTopVertical-enter,
+.slideTopVertical-leave-to
+  transform: translate3d(0, -100%, 0) !important
+  transition-duration: 318ms !important
+
+// Animations
+@keyframes pulse
+  from,
+  to
+    transform: scale3d(1, 1, 1)
+
+  50%
+    transform: scale3d(1.1, 1.1, 1)
+
+@keyframes fadeIn
+  from
+    opacity: 0
+
+  to
+    opacity: 1
+
+.animate
+  animation-duration: 168ms
+
+  &.pulse
+    animation-name: pulse
+
+  &.fade-in
+    animation-duration: 268ms
+    animation-name: fadeIn
+    animation-fill-mode: both
+    animation-timing-function: linear
+
+.delay-display
+  opacity: 0
+  animation-name: fadeIn
+  animation-duration: 168ms
+  animation-delay: 200ms
+  animation-fill-mode: both

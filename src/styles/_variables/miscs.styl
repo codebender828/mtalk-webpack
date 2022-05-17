@@ -1,0 +1,61 @@
+/**
+ * ===== Colors =====
+*/
+// CSS 颜色变量语法糖，如果不怕麻烦也只直接用 CSS 变量
+// 前缀 v 表明变量的值为一个 CSS 变量
+
+// 主色/品牌色
+$v-primary-color = s('rgb(var(--primary-color-rgb))')
+// 颜色后面的数字为透明度
+$v-primary-color-100 = $v-primary-color
+$v-primary-color-87 = s('rgba(var(--primary-color-rgb), 0.87)')
+$v-primary-color-80 = s('rgba(var(--primary-color-rgb), 0.8)')
+$v-primary-color-75 = s('rgba(var(--primary-color-rgb), 0.75)')
+$v-primary-color-60 = s('rgba(var(--primary-color-rgb), 0.6)')
+$v-primary-color-54 = s('rgba(var(--primary-color-rgb), 0.54)')
+$v-primary-color-40 = s('rgba(var(--primary-color-rgb), 0.4)')
+$v-primary-color-38 = s('rgba(var(--primary-color-rgb), 0.38)')
+$v-primary-color-20 = s('rgba(var(--primary-color-rgb), 0.2)')
+$v-primary-color-10 = s('rgba(var(--primary-color-rgb), 0.1)')
+$v-primary-color-07 = s('rgba(var(--primary-color-rgb), 0.07)')
+
+// 次要颜色
+$v-secondary-color = s('rgb(var(--secondary-color-rgb))')
+// 颜色后面的数字为透明度
+$v-secondary-color-100 = $v-secondary-color
+$v-secondary-color-87 = s('rgba(var(--secondary-color-rgb), 0.87)')
+$v-secondary-color-80 = s('rgba(var(--secondary-color-rgb), 0.8)')
+$v-secondary-color-75 = s('rgba(var(--secondary-color-rgb), 0.75)')
+$v-secondary-color-60 = s('rgba(var(--secondary-color-rgb), 0.6)')
+$v-secondary-color-54 = s('rgba(var(--secondary-color-rgb), 0.54)')
+$v-secondary-color-40 = s('rgba(var(--secondary-color-rgb), 0.4)')
+$v-secondary-color-38 = s('rgba(var(--secondary-color-rgb), 0.38)')
+$v-secondary-color-20 = s('rgba(var(--secondary-color-rgb), 0.2)')
+$v-secondary-color-10 = s('rgba(var(--secondary-color-rgb), 0.1)')
+$v-secondary-color-07 = s('rgba(var(--secondary-color-rgb), 0.07)')
+
+$primary-red = #f84343
+$primary-blue = #386eec
+$primary-green = #DCFF1C
+$primary-gray = #f3f5fA
+
+$secondary-red = #830000
+$secondary-blue = #1143b8
+$secondary-gray = #dfe4ef
+
+$disabled-button-red = #cfbebe
+$disabled-shadow-red = #947d7d
+$disabled-button-blue = #c3cce2
+$disabled-shadow-blue = #8c9aba
+
+/**
+ * ===== Layout =====
+*/
+
+$v-grid-baseline = s('var(--grid-baseline)')
+
+/**
+ * ===== Typography =====
+*/
+
+$v-font-base = s('var(--font-base)')

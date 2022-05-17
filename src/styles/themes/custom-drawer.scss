@@ -1,0 +1,10 @@
+.el-drawer {
+  animation-timing-function: ease;
+  animation-duration: 168ms;
+  will-change: transform, opacity;
+}
+
+.el-overlay {
+  animation-duration: 268ms;
+  will-change: opacity;
+}

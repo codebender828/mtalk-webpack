@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Style/README" />
+
+# 基础样式说明
+
+## styles 结构说明
+
+#### 入口文件：
+
+- `main.styl` - 全局样式，在 main.js 中导入
+- `ref.styl` - 引入了 _utils & _varibles，所有 .styl 样式都能使用
+
+## 全局原子性样式
+
+### Spacing
+
+基于 Grid Baseline 来控制间距，支持响应式，继承自 Vuetify
+
+- 参考文档：https://vuetifyjs.com/en/styles/spacing/
+
+### Layout
+
+元素布局由 Display + Flex + Grid 三部分组成，一行 12 栏，继承自 Vuetify
+
+- Display 参考文档：https://vuetifyjs.com/en/styles/display/
+- Flex 参考文档：https://vuetifyjs.com/en/styles/flex/
+- Grid 参考文档：https://vuetifyjs.com/en/components/grids/
+
+### Typography
+
+- 参考文档：https://vuetifyjs.com/en/styles/text-and-typography/
+
+## 主题定制
+
+代码在 `themes` 目录， 目前定制主题做了两件事情:
+
+1. 覆盖 Element Plus 默认变量
+2. 注入 CSS 变量，CSS 变量可以在 Runtime 时动态覆盖

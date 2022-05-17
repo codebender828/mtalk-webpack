@@ -1,0 +1,25 @@
+.el-card {
+  background-color: #DCDFEE;
+  border: none;
+  border-radius: 8px;
+  border-radius: 15px;
+
+  &.is-always-shadow {
+    border: 3px solid #283475;
+    box-shadow: 3px 3px 0px #3546A1, inset 0px 2px 0px #E0F9FE;
+  }
+
+  &.type-primary {
+    // background-color: transparent;
+    // background-image: url("~@/assets/trapezoids/info_card_frame.svg');
+    // background-size: 100% 100%;
+    // background-repeat: no-repeat;
+    background-color: #DCFF1C;
+    border: 3px solid #35466D;
+    box-shadow: 3px 3px 0px #A6B356, inset 2px 2px 0px #E0F9FE;
+  }
+
+  .el-card__body {
+    padding: 16px 20px 16px;
+  }
+}

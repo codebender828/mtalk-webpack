@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="45px" height="45px" viewBox="0 0 45 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>levele_up_90</title>
+    <defs>
+        <linearGradient x1="77.2370741%" y1="-39.7423121%" x2="34.8153219%" y2="108.636512%" id="linearGradient-1">
+            <stop stop-color="#DBFAFD" offset="0%"></stop>
+            <stop stop-color="#2295FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="49.9989452%" y1="0%" x2="49.9989452%" y2="100%" id="linearGradient-2">
+            <stop stop-color="#6887FF" offset="0%"></stop>
+            <stop stop-color="#0751F2" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-82.5223765%" y1="-88.4342818%" x2="82.6827131%" y2="99.2454469%" id="linearGradient-3">
+            <stop stop-color="#36F6FF" offset="0%"></stop>
+            <stop stop-color="#6887FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="49.9959732%" y2="170.507705%" id="linearGradient-4">
+            <stop stop-color="#0751F2" offset="0%"></stop>
+            <stop stop-color="#3CE9FF" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#6887FF" offset="0%"></stop>
+            <stop stop-color="#0751F2" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="1.2377665%" y1="-73.7348332%" x2="65.901061%" y2="126.812443%" id="linearGradient-6">
+            <stop stop-color="#36F6FF" offset="0%"></stop>
+            <stop stop-color="#6887FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="levele_up_90">
+            <circle id="Oval" fill="#35466D" fill-rule="nonzero" cx="22.5" cy="22.5" r="22.5"></circle>
+            <g id="Group" transform="translate(11.000000, 5.000000)" fill-rule="nonzero">
+                <polygon id="Path" fill="url(#linearGradient-1)" points="19.257 22.7951 19.257 12.207 11.9984 6.9146 4.7383 12.207 4.7383 22.7951 11.9984 28.0875"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-2)" points="0 8.75 0 26.25 4.7401 22.794 4.7401 12.206"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-3)" points="0 26.2501 4.7401 22.7942 12.0002 28.0867 12.0002 35.0001"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-4)" points="12.0015 35.0001 12.0015 28.0867 19.26 22.7942 24.0001 26.2501"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-5)" points="19.2593 12.206 23.9993 8.75 23.9993 26.25 19.2593 22.794"></polygon>
+                <polygon id="Path" fill="url(#linearGradient-6)" points="12.0015 0 24.0001 8.75 19.26 12.2059 12.0015 6.9135"></polygon>
+            </g>
+            <g id="Group" transform="translate(11.480000, 5.598900)" stroke="#05309F" stroke-width="0.9977">
+                <path d="M4.5504,11.7858 L4.5504,22.0163 L11.52,27.1267 L18.4896,22.0163 L18.4896,11.7858 L11.52,6.6754 M4.5504,11.7858 L11.52,6.6754 M4.5504,11.7858 L0.02,8.4011 L0,25.3588 L11.52,33.8117 L23.04,25.3588 L23.04,8.4529 L11.52,0 L11.52,6.6754" id="Shape"></path>
+                <line x1="11.52" y1="0" x2="11.52" y2="6.6754" id="Path"></line>
+                <line x1="18.4897" y1="11.786" x2="23.0401" y2="8.4531" id="Path"></line>
+                <line x1="18.4897" y1="22.0163" x2="23.0401" y2="25.3589" id="Path"></line>
+                <line x1="11.52" y1="27.1267" x2="11.52" y2="33.8118" id="Path"></line>
+                <line x1="0" y1="25.3589" x2="4.5504" y2="22.0163" id="Path"></line>
+                <line x1="0" y1="8.4531" x2="4.5504" y2="11.786" id="Path"></line>
+            </g>
+        </g>
+    </g>
+</svg>
