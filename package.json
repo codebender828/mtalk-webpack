@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service serve"
   },
   "dependencies": {
     "@element-plus/theme-chalk": "^2.1.10",
@@ -17,6 +17,7 @@
     "aws-s3": "^2.0.5",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "crypto-browserify": "^3.12.0",
     "css-loader": "^6.7.1",
     "element-plus": "^2.2.0",
     "ethers": "^5.6.5",
@@ -24,6 +25,9 @@
     "lodash": "^4.17.21",
     "qs": "^6.10.3",
     "solana-wallets-vue": "^0.3.2",
+    "stream-browserify": "^3.0.0",
+    "style-loader": "^3.3.1",
+    "style-resources-loader": "^1.5.0",
     "viewport-units-buggyfill": "^0.6.2",
     "vue": "^3.2.33",
     "vue-gtag": "^2.0.1",
@@ -34,25 +38,27 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.15",
-    "@vue/cli-plugin-eslint": "~4.5.15",
-    "@vue/cli-plugin-router": "~4.5.15",
-    "@vue/cli-plugin-vuex": "~4.5.15",
-    "@vue/cli-service": "~4.5.15",
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.4",
+    "@vue/cli-plugin-router": "~5.0.4",
+    "@vue/cli-plugin-vuex": "~5.0.4",
+    "@vue/cli-service": "~5.0.4",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-prettier": "^6.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.0.3",
     "lint-staged": "^9.5.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.4.1",
     "pug": "^3.0.2",
     "pug-plain-loader": "^1.1.0",
     "sass": "^1.51.0",
     "sass-loader": "10.1.1",
     "stylus": "^0.57.0",
-    "stylus-loader": "^6.2.0"
+    "stylus-loader": "^7.0.0",
+    "vue-svg-icon-loader": "^2.1.1"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

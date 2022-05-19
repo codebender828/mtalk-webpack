@@ -1,5 +1,5 @@
-<script setup>
-import { toRef, computed } from "vue";
+<script lang="js" setup>
+import { toRef, computed, defineProps } from "vue";
 
 const props = defineProps({
   disabled: {

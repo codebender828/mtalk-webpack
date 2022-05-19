@@ -23,7 +23,7 @@ const start = function (options, _onStarted) {
   app.use(compression());
 
   // Set header to force download
-  function setHeaders(res, path) {
+  function setHeaders(res) {
     res.setHeader("Cache-Control", "no-cache");
   }
 

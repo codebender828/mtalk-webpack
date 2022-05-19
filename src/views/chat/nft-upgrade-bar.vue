@@ -3,9 +3,9 @@ import { ElMessage } from 'element-plus'
 import get from 'lodash/get'
 
 import { BigNumber } from 'ethers';
-import { useMirror } from '~/composables/use-mirror'
-import { useSouls } from '~/composables/use-souls'
-import { getBotSolanaNFT, isSolanaAddress } from '~/composables/use-solana-upgrade'
+import { useMirror } from '@/composables/use-mirror'
+import { useSouls } from '@/composables/use-souls'
+import { getBotSolanaNFT, isSolanaAddress } from '@/composables/use-solana-upgrade'
 import { ref, toRef, defineProps, computed, nextTick } from 'vue'
 import { useStore } from 'vuex'
 

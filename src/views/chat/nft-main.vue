@@ -135,7 +135,7 @@ div.nft-main.d-flex.flex-column.align-center.flex-grow-1.flex-sm-grow-0.flex-shr
     // &.el-card
     //   min-height: 120px
     //   // background-color: transparent;
-    //   // background-image: url("~@/assets/trapezoids/nft_chat_frame.svg');
+    //   // background-image: url("@/assets/trapezoids/nft_chat_frame.svg');
     //   // background-size: 100% 100%;
     //   // background-repeat: no-repeat;
 

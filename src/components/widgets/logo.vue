@@ -26,11 +26,11 @@ export default {
     background-size: contain
 
     &.logo-rct
-      background-image: url("~@/assets/rctAIlogo_whitebg.svg")
+      background-image: url("@/assets/rctAIlogo_whitebg.svg")
 
     &.logo-mirror
       background-image: url(https://d39gv0w0je0u4w.cloudfront.net/ui/v1_0_0/mirror_world_logo_withtext.svg)
 
     &.logo-icarusart
-      background-image: url("~@/assets/logo-icarusart.png")
+      background-image: url("@/assets/logo-icarusart.png")
 </style>
