@@ -60,9 +60,6 @@
     "stylus-loader": "^7.0.0",
     "vue-svg-icon-loader": "^2.1.1"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "lint-staged": {
     "*.{js,jsx,vue}": [
       "vue-cli-service lint",
