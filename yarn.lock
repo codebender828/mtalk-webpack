@@ -7947,6 +7947,11 @@ next-tick@^1.1.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.1.0.tgz#1836ee30ad56d67ef281b22bd199f709449b35eb"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
+nib@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/nib/-/nib-1.2.0.tgz#cf650a975307edaa8683470430f82ba132bf9f7b"
+  integrity sha512-7HgrnMl/3yOmWykueO8/D0q+0iWwe7Z+CK2Eaq/xQV8w1hK80WN1oReRQkfkrztbAAnp/nTHkUSl5EcVkor6JQ==
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -10028,6 +10033,11 @@ stylus-loader@^7.0.0:
     fast-glob "^3.2.11"
     klona "^2.0.5"
     normalize-path "^3.0.0"
+
+stylus-native-loader@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/stylus-native-loader/-/stylus-native-loader-1.4.6.tgz#59fb3500aa5de9e483cdd7da822842f36ec38148"
+  integrity sha512-vZMDn8wAk4OrFH9F1PihgPtHwD3Ieb3IUMllT1t2MhrbmliBLAjUTWdWsDeUGOFwTWR8PGonmi5fiXR+oF8CcQ==
 
 stylus@^0.57.0:
   version "0.57.0"

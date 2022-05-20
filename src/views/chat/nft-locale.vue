@@ -37,9 +37,8 @@ div.nft-locale.d-flex.flex-column.justify-center.align-center
   top 0
   left 0
   z-index 999999
-  background url("@/assets/backgrounds/nft-locale-bg.png') center center no-repeat
+  background url('../../assets/backgrounds/nft-locale-bg.png') center center no-repeat
   background-size cover
-
 
   .logo-mirror
     width 260px

@@ -9,10 +9,9 @@ module.exports = {
         stream: require.resolve("stream-browserify"),
       },
       alias: {
-        "~": path.resolve(__dirname, "./src"),
-        "@": path.resolve(__dirname, "./src"),
-        // assets: path.resolve(__dirname, "./src/assets"),
-        // "@/assets": path.resolve(__dirname, "./src/assets"),
+        "~": path.resolve(__dirname, "src"),
+        "@": path.resolve(__dirname, "src"),
+        "~assets": path.resolve(__dirname, "src/assets"),
       },
     },
     module: {
@@ -24,16 +23,19 @@ module.exports = {
         {
           test: /\.styl$/,
           use: [
+            // {
+            //   loader: "style-loader", // creates style nodes from JS strings
+            // },
             {
-              loader: "style-loader",
+              loader: "css-loader", // translates CSS into CommonJS
             },
             {
-              loader: "css-loader",
-            },
-            {
-              loader: "stylus-loader",
+              loader: "stylus-loader", // compiles Stylus to CSS
               options: {
-                // webpackImporter: true,
+                stylusOptions: {
+                  use: [require("nib")()],
+                  import: ["nib"],
+                },
               },
             },
           ],
@@ -41,12 +43,12 @@ module.exports = {
       ],
     },
   },
-  chainWebpack: (config) => {
-    const types = ["vue-modules", "vue", "normal-modules", "normal"];
-    types.forEach((type) =>
-      addStyleResource(config.module.rule("stylus").oneOf(type))
-    );
-  },
+  // chainWebpack: (config) => {
+  //   const types = ["vue-modules", "vue", "normal-modules", "normal"];
+  //   types.forEach((type) =>
+  //     addStyleResource(config.module.rule("stylus").oneOf(type))
+  //   );
+  // },
 };
 
 function addStyleResource(rule) {

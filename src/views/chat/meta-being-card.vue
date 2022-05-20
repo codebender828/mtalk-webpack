@@ -234,7 +234,7 @@ export default {
       height: 67px
 
   &-name
-    // background-image: url("@/assets/trapezoids/name_of_nft.svg')
+    // background-image: url("../../assets/trapezoids/name_of_nft.svg")
     // background-size: 100% 100%
     // background-repeat: no-repeat
     padding-left 120px
