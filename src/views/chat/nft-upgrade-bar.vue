@@ -1,4 +1,4 @@
-<script lang="js" setup>
+<script lang="js">
 import { ElMessage } from 'element-plus'
 import get from 'lodash/get'
 
@@ -6,11 +6,10 @@ import { BigNumber } from 'ethers';
 import { useMirror } from '@/composables/use-mirror'
 import { useSouls } from '@/composables/use-souls'
 import { getBotSolanaNFT, isSolanaAddress } from '@/composables/use-solana-upgrade'
-import { ref, toRef, defineProps, computed, nextTick } from 'vue'
+import { ref, toRef, computed, nextTick, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
-const store = useStore()
-const props = defineProps({
+const props = {
 	exp: {
 		type: Number,
 		required: true
@@ -19,119 +18,140 @@ const props = defineProps({
 		type: Number,
 		required: true
 	}
-})
+}
 
-const propExp = toRef(props, 'exp')
-const propMaxExp = toRef(props, 'maxExp')
-const percentNumber = computed(() => {
-	return Math.floor(propExp.value / propMaxExp.value * 100)
-})
+export default defineComponent({
+	props,
+	setup(props) {
+		const store = useStore()
+		const propExp = toRef(props, 'exp')
+		const propMaxExp = toRef(props, 'maxExp')
+		const percentNumber = computed(() => {
+			return Math.floor(propExp.value / propMaxExp.value * 100)
+		})
 
-// 需要严格与 assets/icons/icon-upgrade 图片对应
-const percentSteps = [ 100, 90, 80, 65, 50, 35, 20, 0 ]
-const stepIconName = computed(() => {
-	const stepIndex = percentSteps.findIndex((step) => {
-		return percentNumber.value >= step
-	})
-	return `upgrade-${percentSteps[stepIndex]}`
-})
-
-const { mirror, onAccountChanged, onChainChanged } = useMirror()
-const { souls } = useSouls()
-// const { solanaUpgrade } = useSolanaUpgrade()
-
-onChainChanged((newChainId) => {
-	console.log('chain changed =>', newChainId)
-})
-
-const upgradeSuccessVisible = ref(false)
-const handleUpgradePending = ref(false)
-const handleUpgradeEnabled = computed(() => {
-	// return true
-	return !handleUpgradePending.value && percentNumber.value >= 100
-})
-
-const handleUpgrade = async () => {
-	if (!handleUpgradeEnabled.value) return
-	handleUpgradePending.value = true
-
-	const { data: { data: solanaBot }} = await getBotSolanaNFT({
-		bot_id: store.state.context.botId
-	})
-
-	const isSolanaBot = !!solanaBot && isSolanaAddress(solanaBot.nft.mint_address)
-
-	if (isSolanaBot) {
-		// Solana
-		try {
-			const data = await store.dispatch('requestSolanaBotUpgrade', {
-				mint_address,
-				new_level: store.state.context.level
+		// 需要严格与 assets/icons/icon-upgrade 图片对应
+		const percentSteps = [ 100, 90, 80, 65, 50, 35, 20, 0 ]
+		const stepIconName = computed(() => {
+			const stepIndex = percentSteps.findIndex((step) => {
+				return percentNumber.value >= step
 			})
+			return `upgrade-${percentSteps[stepIndex]}`
+		})
 
-		} catch (error) {
+		const { mirror, onChainChanged } = useMirror()
+		const { souls } = useSouls()
+		// const { solanaUpgrade } = useSolanaUpgrade()
 
-		}
-	} else {
-		// Ethereum
-		try {
-			// 1. Request upgrade signature from API server
-			const payload = await store.dispatch('signUpgrade', {
+		onChainChanged((newChainId) => {
+			console.log('chain changed =>', newChainId)
+		})
+
+		const upgradeSuccessVisible = ref(false)
+		const handleUpgradePending = ref(false)
+		const handleUpgradeEnabled = computed(() => {
+			// return true
+			return !handleUpgradePending.value && percentNumber.value >= 100
+		})
+
+		const handleUpgrade = async () => {
+			if (!handleUpgradeEnabled.value) return
+			handleUpgradePending.value = true
+
+			const { data: { data: solanaBot }} = await getBotSolanaNFT({
 				bot_id: store.state.context.botId
 			})
 
-			if (!payload) {
-				ElMessage.error(error.message)
-				return
-			}
+			const isSolanaBot = !!solanaBot && isSolanaAddress(solanaBot.nft.mint_address)
 
-			const { signature, level, bot_id } = payload
-			console.log({ signature, level, token_id: bot_id })
-			let upgradeTransaction
+			if (isSolanaBot) {
+				// Solana
+				try {
+					const data = await store.dispatch('requestSolanaBotUpgrade', {
+						mint_address: solanaBot.nft.mint_address,
+						new_level: store.state.context.level
+					})
 
-			// 2. Invoke level up from SDK
-			// nft_type of 0 is a mirror. 1 is a soul
-			if (store.state.context.chatInfo.nft_type) {
-				upgradeTransaction = await souls.value.levelUp(
-					signature,
-					bot_id
-				)
+					console.log("solana upgrad data", data)
+
+				} catch (error) {
+					console.warn("solana upgrade failed")
+				}
 			} else {
-				upgradeTransaction = await mirror.levelUp(
-					BigNumber.from(bot_id),
-					BigNumber.from(level),
-					signature
-				)
+				// Ethereum
+				try {
+					// 1. Request upgrade signature from API server
+					const payload = await store.dispatch('signUpgrade', {
+						bot_id: store.state.context.botId
+					})
+
+					// if (!payload) {
+					// 	ElMessage.error(error.message)
+					// 	return
+					// }
+
+					const { signature, level, bot_id } = payload
+					console.log({ signature, level, token_id: bot_id })
+					let upgradeTransaction
+
+					// 2. Invoke level up from SDK
+					// nft_type of 0 is a mirror. 1 is a soul
+					if (store.state.context.chatInfo.nft_type) {
+						upgradeTransaction = await souls.value.levelUp(
+							signature,
+							bot_id
+						)
+					} else {
+						upgradeTransaction = await mirror.levelUp(
+							BigNumber.from(bot_id),
+							BigNumber.from(level),
+							signature
+						)
+					}
+
+					console.log('upgrade successful', upgradeTransaction)
+
+					// 3. Check API to verify level up
+					// @see https://smlhic47en.feishu.cn/docs/doccnDor2WJ9mjrvwSTYtD6U34b#jnFOuV
+					await store.dispatch('verifyUpgrade', {
+						bot_id: store.state.context.botId,
+						level
+					})
+
+					// 4. Refresh bot context state
+					await store.dispatch('getSingleChatInfo', get(store.state, 'context.botId'))
+					await nextTick()
+
+					upgradeSuccessVisible.value = true
+					handleUpgradePending.value = false
+				} catch (error) {
+					handleUpgradePending.value = false
+					ElMessage.error(error.message)
+					console.error(error)
+				}
 			}
+		}
 
-			console.log('upgrade successful', upgradeTransaction)
+		const currentLevel = computed(() => {
+			return get(store.state, 'context.chatInfo.stats.level')
+		})
+		const currentLevelValue = computed(() => {
+			return get(store.state, 'context.chatInfo.stats.levelValue')
+		})
 
-			// 3. Check API to verify level up
-			// @see https://smlhic47en.feishu.cn/docs/doccnDor2WJ9mjrvwSTYtD6U34b#jnFOuV
-			await store.dispatch('verifyUpgrade', {
-				bot_id: store.state.context.botId,
-				level
-			})
-
-			// 4. Refresh bot context state
-			await store.dispatch('getSingleChatInfo', get(store.state, 'context.botId'))
-			await nextTick()
-
-			upgradeSuccessVisible.value = true
-			handleUpgradePending.value = false
-		} catch (error) {
-			handleUpgradePending.value = false
-			ElMessage.error(error.message)
-			console.error(error)
+		return {
+			currentLevel,
+			currentLevelValue,
+			handleUpgrade,
+			percentNumber,
+			maxExp: props.maxExp,
+			exp: props.exp,
+			handleUpgradeEnabled,
+			handleUpgradePending,
+			upgradeSuccessVisible,
+			stepIconName,
 		}
 	}
-}
-
-const currentLevel = computed(() => {
-	return get(store.state, 'context.chatInfo.stats.level')
-})
-const currentLevelValue = computed(() => {
-	return get(store.state, 'context.chatInfo.stats.levelValue')
 })
 </script>
 

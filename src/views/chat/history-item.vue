@@ -1,14 +1,26 @@
-<script setup>
-import { toRef } from "vue";
+<script>
+import { toRef, defineComponent } from "vue";
 import HistoryItemAction from "./history-item-action";
 
-const props = defineProps({
+const props = {
   item: {
     type: Object,
     required: true,
   },
+};
+
+export default defineComponent({
+  props,
+  components: {
+    HistoryItemAction,
+  },
+  setup(props) {
+    const propItem = toRef(props, "item");
+    return {
+      propItem,
+    };
+  },
 });
-const propItem = toRef(props, "item");
 </script>
 
 <template lang="pug">

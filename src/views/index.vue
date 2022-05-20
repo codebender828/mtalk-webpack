@@ -82,9 +82,7 @@ export default {
       const nextUrl = encodeURIComponent(
         `${location.origin}/nfts/${this.inputCode}`
       );
-      location.href = `${
-        import.meta.env.VITE_OFFICIAL_URL
-      }/auth?nextUrl=${nextUrl}`;
+      location.href = `${process.env.VUE_APP_OFFICIAL_URL}/auth?nextUrl=${nextUrl}`;
 
       // this.isLoading = true
 

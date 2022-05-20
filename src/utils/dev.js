@@ -1,5 +1,5 @@
-export const __DEBUG__ = import.meta.env.NODE_ENV !== "production";
-export const __STAGING__ = import.meta.env.NODE_ENV !== "staging";
+export const __DEBUG__ = process.env.NODE_ENV !== "production";
+export const __STAGING__ = process.env.NODE_ENV !== "staging";
 
 export const debugCreator =
   (namespace, isOpen = true) =>

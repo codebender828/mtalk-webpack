@@ -1,16 +1,27 @@
-<script setup>
+<script>
 import MirrorCard from "@/components/ui/mirror-card";
 
-import { toRef } from "vue";
+import { toRef, defineComponent } from "vue";
 
-const props = defineProps({
+const props = {
   card: {
     type: Object,
     required: true,
   },
-});
+};
 
-const propCard = toRef(props, "card");
+export default defineComponent({
+  props,
+  components: {
+    MirrorCard,
+  },
+  setup(props) {
+    const propCard = toRef(props, "card");
+    return {
+      propCard,
+    };
+  },
+});
 </script>
 
 <template lang="pug">

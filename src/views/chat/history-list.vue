@@ -1,88 +1,114 @@
-<script setup>
+<script>
 import { analytics } from "~/services/analytics";
 
-import HistoryItem from "./history-item";
-import HistoryEditModal from "./history-edit-modal";
+import HistoryEditModal from "./history-edit-modal.vue";
 
-import { ref, toRef, computed, watch, nextTick, onMounted } from "vue";
+import {
+  ref,
+  toRef,
+  computed,
+  watch,
+  nextTick,
+  onMounted,
+  defineComponent,
+} from "vue";
 import { useStore } from "vuex";
+import HistoryItem from "./history-item.vue";
 
-const store = useStore();
-const props = defineProps({
+const props = {
   nftId: String,
   isInDialog: Boolean,
-});
-
-const chatList = ref();
-const scrollChatList = async () => {
-  if (!chatList.value) return;
-  await nextTick();
-  chatList.value.scrollTop = 999999;
 };
 
-const visible = ref(false);
-const propNftId = toRef(props, "nftId");
-const propIsInDialog = toRef(props, "isInDialog");
-watch(propNftId, () => {
-  switchVisible(false);
+export default defineComponent({
+  props,
+  component: {
+    HistoryItem,
+    HistoryEditModal,
+  },
+  setup(props) {
+    const store = useStore();
+    const chatList = ref();
+    const scrollChatList = async () => {
+      if (!chatList.value) return;
+      await nextTick();
+      chatList.value.scrollTop = 999999;
+    };
+    const visible = ref(false);
+    const propNftId = toRef(props, "nftId");
+    const propIsInDialog = toRef(props, "isInDialog");
+    watch(propNftId, () => {
+      switchVisible(false);
+    });
+    watch(propIsInDialog, () => {
+      switchVisible(propIsInDialog.value);
+    });
+    const switchVisible = async (newValue) => {
+      const nextValue =
+        typeof newValue === "boolean" ? newValue : !visible.value;
+      visible.value = nextValue;
+      if (nextValue) {
+        analytics.screen("chat_history_panel");
+      } else {
+        analytics.event("chat_history_panel_closed");
+      }
+      await nextTick();
+      if (visible.value && chatList.value) {
+        chatList.value.scrollTop = 999999;
+      }
+    };
+    // Mobile 下主动展开，后续通过 watch 监听
+    if (propIsInDialog.value) {
+      switchVisible(propIsInDialog.value);
+    }
+    const localChatRecords = computed(
+      () => store.state.context.localChatRecords
+    );
+    watch(localChatRecords, async (newValue) => {
+      if (newValue && newValue.length) {
+        scrollChatList();
+      }
+    });
+    const loadStatus = ref(""); // loading | done | error
+    const loadRecords = async () => {
+      if (loadStatus.value === "loading") return;
+      try {
+        loadStatus.value = "loading";
+        await store.dispatch("getLocalChatRecords");
+        loadStatus.value = "done";
+      } catch (error) {
+        loadStatus.value = "error";
+      }
+    };
+    onMounted(async () => {
+      if (localChatRecords.value.length) {
+        loadStatus.value = "done";
+      } else {
+        await loadRecords();
+      }
+      scrollChatList();
+    });
+    const isRestarting = ref(false);
+    const handleRestartClick = async () => {
+      isRestarting.value = true;
+      try {
+        await store.dispatch("restartConversation");
+      } finally {
+        isRestarting.value = false;
+      }
+    };
+    return {
+      handleRestartClick,
+      switchVisible,
+      visible,
+      isRestarting,
+      localChatRecords,
+      loadStatus,
+      loadRecords,
+    };
+  },
+  components: { HistoryItem },
 });
-watch(propIsInDialog, () => {
-  switchVisible(propIsInDialog.value);
-});
-const switchVisible = async (newValue) => {
-  const nextValue = typeof newValue === "boolean" ? newValue : !visible.value;
-  visible.value = nextValue;
-  if (nextValue) {
-    analytics.screen("chat_history_panel");
-  } else {
-    analytics.event("chat_history_panel_closed");
-  }
-  await nextTick();
-  if (visible.value && chatList.value) {
-    chatList.value.scrollTop = 999999;
-  }
-};
-// Mobile 下主动展开，后续通过 watch 监听
-if (propIsInDialog.value) {
-  switchVisible(propIsInDialog.value);
-}
-
-const localChatRecords = computed(() => store.state.context.localChatRecords);
-watch(localChatRecords, async (newValue) => {
-  if (newValue && newValue.length) {
-    scrollChatList();
-  }
-});
-
-const loadStatus = ref(""); // loading | done | error
-const loadRecords = async () => {
-  if (loadStatus.value === "loading") return;
-  try {
-    loadStatus.value = "loading";
-    await store.dispatch("getLocalChatRecords");
-    loadStatus.value = "done";
-  } catch (error) {
-    loadStatus.value = "error";
-  }
-};
-onMounted(async () => {
-  if (localChatRecords.value.length) {
-    loadStatus.value = "done";
-  } else {
-    await loadRecords();
-  }
-  scrollChatList();
-});
-
-const isRestarting = ref(false);
-const handleRestartClick = async () => {
-  isRestarting.value = true;
-  try {
-    await store.dispatch("restartConversation");
-  } finally {
-    isRestarting.value = false;
-  }
-};
 </script>
 
 <template lang="pug">

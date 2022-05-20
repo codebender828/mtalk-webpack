@@ -1,13 +1,23 @@
-<script setup>
-import { toRef } from "vue";
+<script>
+import { toRef, defineEmits, defineComponent } from "vue";
 
-const props = defineProps({
+const props = {
   loading: Boolean,
-});
-const propLoading = toRef(props, "loading");
+};
 
-const emit = defineEmits(["setLanguage"]);
-const handleClick = (lang) => emit("setLanguage", lang);
+export default defineComponent({
+  props,
+  setup(props) {
+    const emit = defineEmits(["setLanguage"]);
+    const propLoading = toRef(props, "loading");
+    const handleClick = (lang) => emit("setLanguage", lang);
+
+    return {
+      propLoading,
+      handleClick,
+    };
+  },
+});
 </script>
 
 <template lang="pug">

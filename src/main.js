@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import ElementPlus from "element-plus";
 import "@element-plus/theme-chalk/dist/index.css";
-import "virtual:svg-icons-register";
+// import "virtual:svg-icons-register";
 
 import { store } from "~/services/store";
 import { guard } from "~/services/guard";
@@ -57,9 +57,18 @@ const walletOptions = {
   autoConnect: true,
 };
 
-import "~/styles/atomic/vuetify.sass";
-import "~/styles/themes/element-plus-custom.scss";
-import "~/styles/main.styl";
+// import "@/styles/ref.styl";
+
+// import "vuetify/src/styles/settings/_variables.scss";
+// import "vuetify/src/styles/styles.sass";
+// import "vuetify/src/styles/utilities/_index.sass";
+// import "vuetify/src/components/VGrid/_grid.sass";
+// import "vuetify/src/components/VGrid/VGrid.sass";
+
+import "@/styles/atomic/vuetify.sass";
+import "@/styles/themes/element-plus-custom.scss";
+import "@/styles/main.styl";
+
 import { __DEBUG__ } from "./utils/dev";
 
 export const app = createApp(App);

@@ -38,7 +38,7 @@ let provider = null;
 /**
  * HOTFIX
  */
-const contractNetwork = computed(() => import.meta.env.VITE_PAYMENT_NETWORK);
+const contractNetwork = computed(() => process.env.VUE_APP_PAYMENT_NETWORK);
 
 const contractAddress =
   DeploymentInfo[contractNetwork.value].mirror.proxyAddress;

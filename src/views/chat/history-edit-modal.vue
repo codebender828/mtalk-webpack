@@ -1,33 +1,49 @@
-<script setup>
+<script>
 import HistoryEditInput from "./history-edit-input";
 
 import get from "lodash/get";
-import { ref, computed, nextTick, watch } from "vue";
+import { ref, computed, nextTick, watch, defineComponent } from "vue";
 import { useStore } from "vuex";
 
-const store = useStore();
+export default defineComponent({
+  components: {
+    HistoryEditInput,
+  },
+  setup() {
+    const store = useStore();
 
-const editorVisible = computed(() => store.state.context.recordEditorVisible);
-const setEditorVisible = (visible) =>
-  store.commit("SET_CONTEXT", {
-    recordEditorVisible: visible,
-  });
+    const editorVisible = computed(
+      () => store.state.context.recordEditorVisible
+    );
+    const setEditorVisible = (visible) =>
+      store.commit("SET_CONTEXT", {
+        recordEditorVisible: visible,
+      });
 
-const recordEditorItem = computed(() =>
-  get(store, "state.context.recordEditorItem")
-);
-const inputList = computed(
-  () => get(store, "state.context.recordEditorItem.besttext") || []
-);
-const inputPlaceholder = computed(() => ({ text: "" }));
+    const recordEditorItem = computed(() =>
+      get(store, "state.context.recordEditorItem")
+    );
+    const inputList = computed(
+      () => get(store, "state.context.recordEditorItem.besttext") || []
+    );
+    const inputPlaceholder = computed(() => ({ text: "" }));
 
-const elMain = ref();
-const scrollElMain = async () => {
-  if (!elMain.value) return;
-  await nextTick();
-  elMain.value.scrollTop = 99999;
-};
-watch(inputList, scrollElMain);
+    const elMain = ref();
+    const scrollElMain = async () => {
+      if (!elMain.value) return;
+      await nextTick();
+      elMain.value.scrollTop = 99999;
+    };
+    watch(inputList, scrollElMain);
+
+    return {
+      inputPlaceholder,
+      recordEditorItem,
+      setEditorVisible,
+      editorVisible,
+    };
+  },
+});
 </script>
 
 <template lang="pug">

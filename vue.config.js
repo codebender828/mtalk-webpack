@@ -20,42 +20,17 @@ module.exports = {
           test: /\.pug$/,
           loader: "pug-plain-loader",
         },
-        {
-          test: /\.styl$/,
-          use: [
-            // {
-            //   loader: "style-loader", // creates style nodes from JS strings
-            // },
-            {
-              loader: "css-loader", // translates CSS into CommonJS
-            },
-            {
-              loader: "stylus-loader", // compiles Stylus to CSS
-              options: {
-                stylusOptions: {
-                  use: [require("nib")()],
-                  import: ["nib"],
-                },
-              },
-            },
-          ],
-        },
       ],
     },
   },
-  // chainWebpack: (config) => {
-  //   const types = ["vue-modules", "vue", "normal-modules", "normal"];
-  //   types.forEach((type) =>
-  //     addStyleResource(config.module.rule("stylus").oneOf(type))
-  //   );
-  // },
+  css: {
+    loaderOptions: {
+      stylus: {
+        stylusOptions: {
+          import: [path.join(__dirname, "src/styles/ref.styl")],
+          resolveURL: true,
+        },
+      },
+    },
+  },
 };
-
-function addStyleResource(rule) {
-  rule
-    .use("style-resource")
-    .loader("style-resources-loader")
-    .options({
-      patterns: [path.resolve(__dirname, "./src/styles/main.styl")],
-    });
-}

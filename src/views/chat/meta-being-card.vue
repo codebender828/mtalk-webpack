@@ -177,14 +177,12 @@ export default {
     },
 
     handleMarketClick() {
-      const url = `${
-        import.meta.env.VITE_OFFICIAL_URL
-      }/market?utm_medium=header`;
+      const url = `${process.env.VUE_APP_OFFICIAL_URL}/market?utm_medium=header`;
       window.open(url, "_blank");
     },
 
     handleRankingClick() {
-      const url = `${import.meta.env.VITE_OFFICIAL_URL}/ranking`;
+      const url = `${process.env.VUE_APP_OFFICIAL_URL}/ranking`;
       window.open(url, "_blank");
     },
   },

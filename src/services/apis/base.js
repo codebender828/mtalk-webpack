@@ -8,7 +8,7 @@ import { store } from "../store";
 export const request = axios;
 const ENABLE_MOCK = false;
 
-request.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
+request.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
 let errorMessageTimer;
 const errorMessageInterceptor = (errorRes) => {

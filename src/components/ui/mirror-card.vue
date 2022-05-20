@@ -1,5 +1,6 @@
-<script setup>
-const props = defineProps({
+<script lang="js">
+import { defineComponent } from "vue";
+const props = {
   borderWidth: String,
   borderRadius: String,
   skewDegAbs: Number,
@@ -7,41 +8,53 @@ const props = defineProps({
   borderColor: String,
   bgColor: String,
   shadowColor: String,
+}
+
+export default defineComponent({
+  props,
+  setup(props) {
+    const isLeft = props.placement === "left";
+    const innerOffsetX = `${props.skewDegAbs * 2}px`;
+    const innerWidth = `calc(100% - ${innerOffsetX})`;
+
+    const elSkewStyle = {
+      width: `calc(100% - ${props.skewDegAbs}px)`,
+      "border-width": props.borderWidth,
+      "border-color": props.borderColor,
+      "border-radius": props.borderRadius,
+      transform: `skew(-${props.skewDegAbs}deg)`,
+      "background-color": props.bgColor,
+      "box-shadow": `${props.borderWidth} ${props.borderWidth} 0 ${props.shadowColor}`,
+      [props.placement]: "0",
+    };
+
+    const elOverlayStyle = {
+      width: innerWidth,
+      "border-width": props.borderWidth,
+      "border-color": props.borderColor,
+      [`border-${props.placement}-width`]: "0",
+      "border-radius": isLeft
+        ? `0 ${props.borderRadius} ${props.borderRadius} 0`
+        : `${props.borderRadius} 0 0 ${props.borderRadius}`,
+      "background-color": props.bgColor,
+      "box-shadow": isLeft
+        ? `${props.borderWidth} ${props.borderWidth} 0 ${props.shadowColor}`
+        : "none",
+      [props.placement]: innerOffsetX,
+    };
+
+    const elContentStyle = {
+      width: innerWidth,
+      [props.placement]: innerOffsetX,
+    };
+
+    return {
+      elContentStyle,
+      elOverlayStyle,
+      elSkewStyle,
+    }
+  },
 });
-const isLeft = props.placement === "left";
-const innerOffsetX = `${props.skewDegAbs * 2}px`;
-const innerWidth = `calc(100% - ${innerOffsetX})`;
-
-const elSkewStyle = {
-  width: `calc(100% - ${props.skewDegAbs}px)`,
-  "border-width": props.borderWidth,
-  "border-color": props.borderColor,
-  "border-radius": props.borderRadius,
-  transform: `skew(-${props.skewDegAbs}deg)`,
-  "background-color": props.bgColor,
-  "box-shadow": `${props.borderWidth} ${props.borderWidth} 0 ${props.shadowColor}`,
-  [props.placement]: "0",
-};
-
-const elOverlayStyle = {
-  width: innerWidth,
-  "border-width": props.borderWidth,
-  "border-color": props.borderColor,
-  [`border-${props.placement}-width`]: "0",
-  "border-radius": isLeft
-    ? `0 ${props.borderRadius} ${props.borderRadius} 0`
-    : `${props.borderRadius} 0 0 ${props.borderRadius}`,
-  "background-color": props.bgColor,
-  "box-shadow": isLeft
-    ? `${props.borderWidth} ${props.borderWidth} 0 ${props.shadowColor}`
-    : "none",
-  [props.placement]: innerOffsetX,
-};
-
-const elContentStyle = {
-  width: innerWidth,
-  [props.placement]: innerOffsetX,
-};
 </script>
 
 <template lang="pug">

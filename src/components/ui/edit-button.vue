@@ -1,7 +1,7 @@
-<script lang="js" setup>
-import { toRef, computed, defineProps } from "vue";
+<script lang="js">
+import { toRef, computed, defineEmits, defineComponent } from "vue";
 
-const props = defineProps({
+const props = {
   disabled: {
     type: Boolean,
     default: false,
@@ -14,24 +14,38 @@ const props = defineProps({
     type: String,
     required: true,
   }, // add | delete
-});
-const propDisabled = toRef(props, "disabled");
-const propConfirmTitle = toRef(props, "confirmTitle");
-const propIconType = toRef(props, "iconType");
-const iconName = computed(() => {
-  return (
-    {
-      add: "el-icon-plus",
-      delete: "el-icon-close",
-    }[propIconType.value] || ""
-  );
-});
+};
 
-const needConfirm = computed(() => {
-  return propConfirmTitle.value && propIconType.value === "delete";
-});
-const emit = defineEmits(["click"]);
-const emitClick = () => emit("click");
+export default defineComponent({
+  props,
+  setup(props) {
+    const propDisabled = toRef(props, "disabled");
+    const propConfirmTitle = toRef(props, "confirmTitle");
+    const propIconType = toRef(props, "iconType");
+    const iconName = computed(() => {
+      return (
+        {
+          add: "el-icon-plus",
+          delete: "el-icon-close",
+        }[propIconType.value] || ""
+      );
+    });
+
+    const needConfirm = computed(() => {
+      return propConfirmTitle.value && propIconType.value === "delete";
+    });
+    const emit = defineEmits(["click"]);
+    const emitClick = () => emit("click");
+
+    return {
+      propDisabled,
+      iconName,
+      needConfirm,
+      emit,
+      emitClick
+    }
+  }
+})
 </script>
 
 <template lang="pug">

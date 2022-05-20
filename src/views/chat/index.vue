@@ -5,7 +5,7 @@ import HistoryList from "./history-list";
 import NftMain from "./nft-main";
 import NftModal from "./nft-modal";
 import NftLocale from "./nft-locale";
-import { WalletMultiButton, useAnchorWallet } from "solana-wallets-vue";
+import { WalletMultiButton } from "solana-wallets-vue";
 
 import get from "lodash/get";
 import Cookies from "js-cookie";
@@ -23,7 +23,7 @@ export default defineComponent({
     NftLocale,
     WalletMultiButton,
   },
-  setup(_) {
+  setup() {
     const {
       isNetworkSafe,
       currentNetworkName,
@@ -223,9 +223,8 @@ export default defineComponent({
             rct-icon(
               name="medium"
             )
-          wallet-multi-button(
-            class="solana-button"
-          )
+          div(class='solana-button')
+            wallet-multi-button
 
 
   //- Only 手机版显示

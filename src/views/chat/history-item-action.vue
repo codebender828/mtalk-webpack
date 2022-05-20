@@ -1,7 +1,14 @@
-<script setup>
+<script>
 import { ElMessage } from "element-plus";
 
-import { ref, toRef, computed, watch, onBeforeMount } from "vue";
+import {
+  ref,
+  toRef,
+  computed,
+  watch,
+  onBeforeMount,
+  defineComponent,
+} from "vue";
 import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
 
@@ -9,108 +16,121 @@ import iconEditDefault from "@/assets/icons/icon-edit-default.svg";
 import iconEditActived from "@/assets/icons/icon-edit-actived.svg";
 import iconLikeDefault from "@/assets/icons/icon-like-default.svg";
 import iconLikeActived from "@/assets/icons/icon-like-actived.svg";
-
-const { t } = useI18n();
-const store = useStore();
-const props = defineProps({
+const props = {
   item: Object,
   mode: {
     type: String,
     default: "outer",
   },
-});
-
-const localVoteType = ref(0); // 0: 默认 1:点赞 2.踩
-const handleVoteIsPending = ref(false);
-const handleVote = async (voteType) => {
-  if (handleVoteIsPending.value) return;
-  handleVoteIsPending.value = true;
-  const lastValue = localVoteType.value;
-  const nextValue = lastValue === voteType ? 0 : voteType;
-  try {
-    localVoteType.value = nextValue;
-    await store.dispatch("likeChatRecordItem", {
-      msg_id: props.item.id,
-      evaluate: nextValue,
-    });
-    handleVoteIsPending.value = false;
-    ElMessage.success(t("nft.chat.submit.success"));
-  } catch (error) {
-    localVoteType.value = lastValue;
-    handleVoteIsPending.value = false;
-    ElMessage.error(error.message);
-  }
 };
 
-const propItem = toRef(props, "item");
-const messageCount = computed(
-  () => (propItem.value.besttext && propItem.value.besttext.length) || 0
-);
-onBeforeMount(() => {
-  localVoteType.value = propItem.value.evaluate || 0;
-});
-watch(
-  propItem,
-  (newValue) => {
-    localVoteType.value = newValue.evaluate || 0;
+export default defineComponent({
+  props,
+  setup(props) {
+    const { t } = useI18n();
+    const store = useStore();
+
+    const localVoteType = ref(0); // 0: 默认 1:点赞 2.踩
+    const handleVoteIsPending = ref(false);
+    const handleVote = async (voteType) => {
+      if (handleVoteIsPending.value) return;
+      handleVoteIsPending.value = true;
+      const lastValue = localVoteType.value;
+      const nextValue = lastValue === voteType ? 0 : voteType;
+      try {
+        localVoteType.value = nextValue;
+        await store.dispatch("likeChatRecordItem", {
+          msg_id: props.item.id,
+          evaluate: nextValue,
+        });
+        handleVoteIsPending.value = false;
+        ElMessage.success(t("nft.chat.submit.success"));
+      } catch (error) {
+        localVoteType.value = lastValue;
+        handleVoteIsPending.value = false;
+        ElMessage.error(error.message);
+      }
+    };
+
+    const propItem = toRef(props, "item");
+    const messageCount = computed(
+      () => (propItem.value.besttext && propItem.value.besttext.length) || 0
+    );
+    onBeforeMount(() => {
+      localVoteType.value = propItem.value.evaluate || 0;
+    });
+    watch(
+      propItem,
+      (newValue) => {
+        localVoteType.value = newValue.evaluate || 0;
+      },
+      { deep: true }
+    );
+
+    const showEditModal = () =>
+      store.commit("SET_CONTEXT", {
+        recordEditorItem: propItem.value,
+        recordEditorVisible: true,
+      });
+
+    const hasActionData = computed(() => {
+      return messageCount.value > 0 || localVoteType.value > 0;
+    });
+
+    const buttons = computed(() => {
+      return [
+        {
+          icon: iconEditDefault,
+          iconActived: iconEditActived,
+          badge: messageCount.value > 9 ? "9+" : messageCount.value,
+          tooltipText: messageCount.value
+            ? t("nft.chat.reply.edit")
+            : t("nft.chat.reply.add"),
+          isActived: !!messageCount.value,
+          action: showEditModal,
+        },
+        {
+          isHidden: localVoteType.value === 2,
+          icon: iconLikeDefault,
+          iconActived: iconLikeActived,
+          // tooltipText: localVoteType.value === 1 ? t('nft.chat.like.cancel') : t('nft.chat.like'),
+          isActived: localVoteType.value === 1,
+          action: () => handleVote(1),
+        }, // 喜欢
+        {
+          isHidden: localVoteType.value === 1,
+          icon: iconLikeDefault,
+          iconActived: iconLikeActived,
+          isReverse: true,
+          // tooltipText: localVoteType.value === 2 ? t('nft.chat.dislike.cancel') : t('nft.chat.dislike'),
+          isActived: localVoteType.value === 2,
+          action: () => handleVote(2),
+        }, // 不喜欢
+      ].filter((button) => {
+        if (props.mode === "outer") {
+          return !button.isActived && !button.isHidden;
+        } else {
+          return button.isActived;
+        }
+      });
+    });
+    const clickButton = (action) => typeof action === "function" && action();
+
+    const computedClasses = computed(() => {
+      return {
+        "chat-item_action-outer": props.mode === "outer",
+        "chat-item_action-inner": props.mode === "inner",
+      };
+    });
+
+    return {
+      clickButton,
+      computedClasses,
+      buttons,
+      hasActionData,
+      localVoteType,
+    };
   },
-  { deep: true }
-);
-
-const showEditModal = () =>
-  store.commit("SET_CONTEXT", {
-    recordEditorItem: propItem.value,
-    recordEditorVisible: true,
-  });
-
-const hasActionData = computed(() => {
-  return messageCount.value > 0 || localVoteType.value > 0;
-});
-
-const buttons = computed(() => {
-  return [
-    {
-      icon: iconEditDefault,
-      iconActived: iconEditActived,
-      badge: messageCount.value > 9 ? "9+" : messageCount.value,
-      tooltipText: messageCount.value
-        ? t("nft.chat.reply.edit")
-        : t("nft.chat.reply.add"),
-      isActived: !!messageCount.value,
-      action: showEditModal,
-    },
-    {
-      isHidden: localVoteType.value === 2,
-      icon: iconLikeDefault,
-      iconActived: iconLikeActived,
-      // tooltipText: localVoteType.value === 1 ? t('nft.chat.like.cancel') : t('nft.chat.like'),
-      isActived: localVoteType.value === 1,
-      action: () => handleVote(1),
-    }, // 喜欢
-    {
-      isHidden: localVoteType.value === 1,
-      icon: iconLikeDefault,
-      iconActived: iconLikeActived,
-      isReverse: true,
-      // tooltipText: localVoteType.value === 2 ? t('nft.chat.dislike.cancel') : t('nft.chat.dislike'),
-      isActived: localVoteType.value === 2,
-      action: () => handleVote(2),
-    }, // 不喜欢
-  ].filter((button) => {
-    if (props.mode === "outer") {
-      return !button.isActived && !button.isHidden;
-    } else {
-      return button.isActived;
-    }
-  });
-});
-const clickButton = (action) => typeof action === "function" && action();
-
-const computedClasses = computed(() => {
-  return {
-    "chat-item_action-outer": props.mode === "outer",
-    "chat-item_action-inner": props.mode === "inner",
-  };
 });
 </script>
 
