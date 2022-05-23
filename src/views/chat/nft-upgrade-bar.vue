@@ -9,7 +9,6 @@ import { getBotSolanaNFT, isSolanaAddress } from '@/composables/use-solana-upgra
 import { ref, toRef, computed, nextTick, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 import { useSolanaUpgrade } from '~/composables/use-solana-upgrade';
-import { useAnchorWallet } from 'solana-wallets-vue';
 
 const props = {
 	exp: {
@@ -99,6 +98,10 @@ export default defineComponent({
 					upgradeSuccessVisible.value = true
 				} catch (error) {
 					console.error("solana upgrade failed", error)
+					const message = error?.response?.data?.errors?.[0]?.msg
+					if (message) {
+						ElMessage.error(error.message)
+					}
 				} finally {
 					handleUpgradePending.value = false
 				}
@@ -109,11 +112,6 @@ export default defineComponent({
 					const payload = await store.dispatch('signUpgrade', {
 						bot_id: store.state.context.botId
 					})
-
-					// if (!payload) {
-					// 	ElMessage.error(error.message)
-					// 	return
-					// }
 
 					const { signature, level, bot_id } = payload
 					console.log({ signature, level, token_id: bot_id })
