@@ -8,6 +8,7 @@ import { nftAPI } from "~/services/apis";
 const { clusterApiUrl, Connection, PublicKey } = web3;
 
 let isInitialized = false;
+/** @type {import('vue').Ref<import('@mirrorworld/library.upgrade').LevelUpgrade>} */
 const solanaUpgrade = ref(null);
 
 export function useSolanaUpgrade() {
@@ -15,6 +16,24 @@ export function useSolanaUpgrade() {
   const connection = new Connection(
     __DEBUG__ ? clusterApiUrl("devnet") : clusterApiUrl("mainnet-beta")
   );
+
+  async function signLevelUpTransaction(transaction) {
+    console.debug("Upgrade transaction: ", transaction);
+    console.debug("Requesting user signature ...");
+    const serializedTransaction = Buffer.from(transaction, "base64");
+    const txt = web3.Transaction.from(serializedTransaction);
+    console.debug("Constructed transaction from authority ...");
+    const signedUpgradeTransaction = await wallet.value.signTransaction(txt);
+    console.debug("Signed upgrade transaction ...");
+    console.debug("Sending txt ...");
+    const signature = await connection.sendRawTransaction(
+      signedUpgradeTransaction.serialize()
+    );
+    const result = await connection.confirmTransaction(signature);
+    console.debug("Successfully sent txt ...", result);
+    console.log("result", result);
+    return { result, signature };
+  }
 
   async function initalize() {
     const { LevelUpgrade, LEVEL_UPGRADE_PROGRAM_ID } = await import(
@@ -39,6 +58,7 @@ export function useSolanaUpgrade() {
 
   return {
     solanaUpgrade: readonly(solanaUpgrade),
+    signLevelUpTransaction,
   };
 }
 
@@ -56,7 +76,7 @@ export const isSolanaBot = (bot) => isSolanaAddress(bot.owner_address);
 
 export const getBotSolanaNFT = async (bot) => {
   return nftAPI.getSolanaMintInfo({
-    token_id: String(bot.token_id),
+    token_id: String(bot.bot_id),
   });
 };
 

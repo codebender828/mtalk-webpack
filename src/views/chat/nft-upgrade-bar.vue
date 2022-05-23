@@ -8,6 +8,8 @@ import { useSouls } from '@/composables/use-souls'
 import { getBotSolanaNFT, isSolanaAddress } from '@/composables/use-solana-upgrade'
 import { ref, toRef, computed, nextTick, defineComponent } from 'vue'
 import { useStore } from 'vuex'
+import { useSolanaUpgrade } from '~/composables/use-solana-upgrade';
+import { useAnchorWallet } from 'solana-wallets-vue';
 
 const props = {
 	exp: {
@@ -30,6 +32,7 @@ export default defineComponent({
 			return Math.floor(propExp.value / propMaxExp.value * 100)
 		})
 
+
 		// 需要严格与 assets/icons/icon-upgrade 图片对应
 		const percentSteps = [ 100, 90, 80, 65, 50, 35, 20, 0 ]
 		const stepIconName = computed(() => {
@@ -41,7 +44,7 @@ export default defineComponent({
 
 		const { mirror, onChainChanged } = useMirror()
 		const { souls } = useSouls()
-		// const { solanaUpgrade } = useSolanaUpgrade()
+		const { signLevelUpTransaction } = useSolanaUpgrade()
 
 		onChainChanged((newChainId) => {
 			console.log('chain changed =>', newChainId)
@@ -58,6 +61,7 @@ export default defineComponent({
 			if (!handleUpgradeEnabled.value) return
 			handleUpgradePending.value = true
 
+			console.log("state", store.state)
 			const { data: { data: solanaBot }} = await getBotSolanaNFT({
 				bot_id: store.state.context.botId
 			})
@@ -67,15 +71,36 @@ export default defineComponent({
 			if (isSolanaBot) {
 				// Solana
 				try {
-					const data = await store.dispatch('requestSolanaBotUpgrade', {
+					const new_level = store.state.context.chatInfo.stats.levelValue + 1
+					console.debug("Upgrading solana NFT to new level: ", new_level)
+					const { data: response } = await store.dispatch('requestSolanaBotUpgrade', {
 						mint_address: solanaBot.nft.mint_address,
-						new_level: store.state.context.level
+						new_level: !isNaN(new_level) ? new_level : null
 					})
 
-					console.log("solana upgrad data", data)
+					const transaction = response.data.transaction
+					if (!transaction) {
+						throw new Error("Could not create upgrade transaction. Please try again.")
+					}
 
+					const { result, signature } = await signLevelUpTransaction(transaction)
+
+					// 4. Refresh bot context state
+					console.debug("Upgrade successful. Refreshing bot state ...", result, signature)
+
+					await store.dispatch('verifyUpgrade', {
+						bot_id: store.state.context.botId,
+						level: new_level
+					})
+
+					// 4. Refresh bot context state
+					await store.dispatch('getSingleChatInfo', get(store.state, 'context.botId'))
+					await nextTick()
+					upgradeSuccessVisible.value = true
 				} catch (error) {
-					console.warn("solana upgrade failed")
+					console.error("solana upgrade failed", error)
+				} finally {
+					handleUpgradePending.value = false
 				}
 			} else {
 				// Ethereum
